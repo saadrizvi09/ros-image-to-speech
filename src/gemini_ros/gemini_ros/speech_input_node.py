@@ -12,7 +12,6 @@ class SpeechInputNode(Node):
 
         self.recognizer = sr.Recognizer()
         
-        # Optimized settings - similar to your original but slightly better
         self.recognizer.pause_threshold = 1.0
         self.recognizer.energy_threshold = 300
         self.recognizer.dynamic_energy_threshold = False
@@ -37,7 +36,6 @@ class SpeechInputNode(Node):
                         phrase_time_limit=8
                     )
 
-                # Try US English first (often better), then fallback to IN
                 text = None
                 try:
                     text = self.recognizer.recognize_google(

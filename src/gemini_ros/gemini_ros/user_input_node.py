@@ -4,7 +4,6 @@ from std_msgs.msg import String
 def main(args=None):
     rclpy.init(args=args)
 
-    # We don't need a full class for this simple node
     node = rclpy.create_node('user_input_node')
     publisher = node.create_publisher(String, 'user_query', 10)
 
