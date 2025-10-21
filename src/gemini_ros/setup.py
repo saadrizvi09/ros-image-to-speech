@@ -26,7 +26,7 @@ setup(
     ],
     zip_safe=True,
     maintainer='saad-rizvi',
-    maintainer_email='saad.rizvi@example.com',
+    maintainer_email='saadrizvi1234@gmail.com',
     description='ROS2 package for vision-based Q&A using Gemini AI with speech I/O',
     license='MIT',
     extras_require={
