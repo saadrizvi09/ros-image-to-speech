@@ -1,0 +1,52 @@
+# ROS2 Build artifacts
+build/
+install/
+log/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+*.cpython-*.pyc
+
+# Environment variables (IMPORTANT - contains API keys!)
+.env
+*.env
+
+# IDE/Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Audio files
+*.wav
+*.mp3
+/tmp/
+
+# Temporary files
+*.tmp
+*.log
+temp_*
+ros_speech_*.mp3
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Test files (optional - you might want to keep these)
+test.wav
+check_mics.py
