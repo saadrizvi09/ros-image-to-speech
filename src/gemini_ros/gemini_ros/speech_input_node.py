@@ -12,9 +12,9 @@ class SpeechInputNode(Node):
 
         self.recognizer = sr.Recognizer()
         
-        # Optimized settings for better accuracy
-        self.recognizer.pause_threshold = 1.0  # Slightly longer pause
-        self.recognizer.energy_threshold = 100
+        # Optimized settings - similar to your original but slightly better
+        self.recognizer.pause_threshold = 1.0
+        self.recognizer.energy_threshold = 300
         self.recognizer.dynamic_energy_threshold = False
         self.recognizer.non_speaking_duration = 0.5
         
@@ -30,28 +30,39 @@ class SpeechInputNode(Node):
                 self.get_logger().info("Ready - speak now...")
                 
                 with self.microphone as source:
-                    # Longer phrase time limit for complete sentences
+                    # Listen with your original settings
                     audio = self.recognizer.listen(
                         source, 
                         timeout=None, 
                         phrase_time_limit=8
                     )
 
-                # Use language hint for better accuracy
-                text = self.recognizer.recognize_google(
-                    audio,
-                    language='en-IN'  # English-India for better accent recognition
-                ).lower()
-                
-                self.get_logger().info(f"✓ Heard: '{text}'")
+                # Try US English first (often better), then fallback to IN
+                text = None
+                try:
+                    text = self.recognizer.recognize_google(
+                        audio,
+                        language='en-US'
+                    ).lower()
+                    self.get_logger().info(f"✓ Heard (US): '{text}'")
+                except sr.UnknownValueError:
+                    try:
+                        text = self.recognizer.recognize_google(
+                            audio,
+                            language='en-IN'
+                        ).lower()
+                        self.get_logger().info(f"✓ Heard (IN): '{text}'")
+                    except sr.UnknownValueError:
+                        raise
 
-                if "end" in text:
-                    self.publish_command("end")
-                    break
-                elif "stop" in text:
-                    self.publish_command("stop")
-                else:
-                    self.publish_query(text)
+                if text:
+                    if "end" in text:
+                        self.publish_command("end")
+                        break
+                    elif "stop" in text:
+                        self.publish_command("stop")
+                    else:
+                        self.publish_query(text)
 
             except sr.UnknownValueError:
                 self.get_logger().warn("⚠ Could not understand audio, please try again.")
